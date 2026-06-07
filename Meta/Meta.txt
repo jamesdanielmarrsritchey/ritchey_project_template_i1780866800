@@ -1,0 +1,9 @@
+# Meta
+
+Name: Ritchey Project Template
+Implementation: 1780866800
+Version: 1
+Release Type: Stable
+Long Identifier: Ritchey Project Template i1780866800 v1
+Short Identifier: RPTi1780866800v1
+Author: James Daniel Marrs Ritchey

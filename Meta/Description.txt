@@ -1,0 +1,3 @@
+# Description
+
+Ritchey Project Template is a blank project template containing a folder structure, some basic informational files, and other general assets.
