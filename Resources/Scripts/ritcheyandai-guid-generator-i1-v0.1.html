@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ritchey&AI GUID Generator</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #eee;
+    padding: 30px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #1c1c1c;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+.item {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.value-row {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    background: #000;
+    color: #0f0;
+    border: 1px solid #555;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 14px;
+    cursor: pointer;
+    background: #333;
+    color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #444;
+}
+
+.note {
+    color: #aaa;
+    margin-top: 25px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ritchey&AI GUID Generator</h1>
+
+    <div class="item">
+        <label>GUID</label>
+        <div class="value-row">
+            <input id="guid" readonly>
+            <button onclick="copyValue('guid')">Copy</button>
+        </div>
+    </div>
+
+    <div class="item">
+        <label>GUID Without Dashes</label>
+        <div class="value-row">
+            <input id="guid_no_dashes" readonly>
+            <button onclick="copyValue('guid_no_dashes')">Copy</button>
+        </div>
+    </div>
+
+    <div class="item">
+        <label>CRC32</label>
+        <div class="value-row">
+            <input id="crc32" readonly>
+            <button onclick="copyValue('crc32')">Copy</button>
+        </div>
+    </div>
+
+    <div class="item">
+        <label>CRC32 Trimmed To 4 Characters</label>
+        <div class="value-row">
+            <input id="crc32_trimmed" readonly>
+            <button onclick="copyValue('crc32_trimmed')">Copy</button>
+        </div>
+    </div>
+
+    <p class="note">Refresh the page to generate a new GUID.</p>
+</div>
+
+<script>
+function generateGuid() {
+    if (crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(character) {
+        var random_number = Math.random() * 16 | 0;
+        var value = character == "x" ? random_number : (random_number & 0x3 | 0x8);
+        return value.toString(16);
+    });
+}
+
+function makeCrc32Table() {
+    var crc_table = [];
+    var c;
+    var n;
+    var k;
+
+    for (n = 0; n < 256; n++) {
+        c = n;
+
+        for (k = 0; k < 8; k++) {
+            if ((c & 1) == 1) {
+                c = 0xedb88320 ^ (c >>> 1);
+            } else {
+                c = c >>> 1;
+            }
+        }
+
+        crc_table[n] = c >>> 0;
+    }
+
+    return crc_table;
+}
+
+var crc32_table = makeCrc32Table();
+
+function crc32(text) {
+    var crc = 0 ^ -1;
+    var i;
+
+    for (i = 0; i < text.length; i++) {
+        crc = (crc >>> 8) ^ crc32_table[(crc ^ text.charCodeAt(i)) & 0xff];
+    }
+
+    return ((crc ^ -1) >>> 0).toString(16).padStart(8, "0");
+}
+
+function copyValue(id) {
+    var input = document.getElementById(id);
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(input.value);
+}
+
+function loadValues() {
+    var guid = generateGuid();
+    var guid_no_dashes = guid.replaceAll("-", "");
+    var crc = crc32(guid_no_dashes);
+    var crc_trimmed = crc.substring(0, 4);
+
+    document.getElementById("guid").value = guid;
+    document.getElementById("guid_no_dashes").value = guid_no_dashes;
+    document.getElementById("crc32").value = crc;
+    document.getElementById("crc32_trimmed").value = crc_trimmed;
+}
+
+loadValues();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ritchey&AI Display Timestamp</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #eee;
+    padding: 30px;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #1f1f1f;
+    border-radius: 8px;
+}
+
+.label {
+    width: 140px;
+    font-weight: bold;
+}
+
+.timestamp {
+    flex: 1;
+    font-family: Consolas, monospace;
+    font-size: 1.2em;
+    background: #000;
+    padding: 8px 10px;
+    border-radius: 4px;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #3d8bfd;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #1f6fe5;
+}
+
+.status {
+    width: 60px;
+    color: #7dff7d;
+    font-size: 0.9em;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Ritchey&AI Display Timestamp</h1>
+
+<div id="timestamps"></div>
+
+<script>
+
+var entries = [
+    { label: "Current", offset: 0 },
+    { label: "1 minute ago", offset: 60 },
+    { label: "1 hour ago", offset: 3600 },
+    { label: "1 day ago", offset: 86400 },
+    { label: "1 year ago", offset: 31536000 },
+    { label: "10 years ago", offset: 315360000 }
+];
+
+function copyTimestamp(value, statusElement)
+{
+    navigator.clipboard.writeText(value.toString());
+
+    statusElement.textContent = "Copied";
+
+    setTimeout(function(){
+        statusElement.textContent = "";
+    }, 1000);
+}
+
+function render()
+{
+    var container = document.getElementById("timestamps");
+    container.innerHTML = "";
+
+    var now = Math.floor(Date.now() / 1000);
+
+    for (var i = 0; i < entries.length; i++)
+    {
+        var value = now - entries[i].offset;
+
+        var row = document.createElement("div");
+        row.className = "row";
+
+        var label = document.createElement("div");
+        label.className = "label";
+        label.textContent = entries[i].label;
+
+        var timestamp = document.createElement("div");
+        timestamp.className = "timestamp";
+        timestamp.textContent = value;
+
+        var button = document.createElement("button");
+        button.textContent = "Copy";
+
+        var status = document.createElement("div");
+        status.className = "status";
+
+        button.onclick = (function(v, s){
+            return function(){
+                copyTimestamp(v, s);
+            };
+        })(value, status);
+
+        row.appendChild(label);
+        row.appendChild(timestamp);
+        row.appendChild(button);
+        row.appendChild(status);
+
+        container.appendChild(row);
+    }
+}
+
+render();
+setInterval(render, 1000);
+
+</script>
+
+</body>
+</html>
