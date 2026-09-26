@@ -2,8 +2,8 @@
 
 A list of things to potentially add, or change in future releases.
 
-High Priority:
+HIGH PRIORITY:
 - 
 
-Low Priority:
+LOW PRIORITY:
 - 

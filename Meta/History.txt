@@ -4,6 +4,8 @@ Timeline:
 - Project started June 7, 2026.
 - Version 1 completed June 7, 2026.
 - Version 2 completed July 5, 2026.
+- Version 3 completed September 22, 2026.
 
 Highlighted Changes:
 - Added a content building script that is useful for projects where the source material and content are mostly the same, and including both would unnecessarily bloat the project size.
+- Added new specifications.

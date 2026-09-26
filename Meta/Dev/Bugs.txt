@@ -2,8 +2,8 @@
 
 A list of select bugs in the project.
 
-High Priority:
+HIGH PRIORITY:
 - 
 
-Low Priority:
+LOW PRIORITY:
 - 

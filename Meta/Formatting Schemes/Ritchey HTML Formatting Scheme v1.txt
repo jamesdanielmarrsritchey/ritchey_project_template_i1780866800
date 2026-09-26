@@ -1,0 +1,34 @@
+# Ritchey HTML Formatting Scheme v1
+
+A formatting scheme for HTML files.
+
+## Rules
+
+### Top-Level Elements
+
+Inside the body tag, 3 types of top-level elements can be used: header sections, footer sections, content sections.
+
+TYPES:
+- Header sections go in the body tag first, and typically store elements like navigation menus, the site name, or the site logo.
+- Footer sections go in the body tag last. They typically store copyright notices, additional navigation links, or other widgets. 
+- Content sections go after header sections, and before the footer sections. They store the actual content that users are there to see.
+
+There can multiple instances of each type used within a file. However, generally, there is only one content section. If two are used, it's typically because the second is for holding a comment section widget.
+
+All sections must have a class indicating their type (e.g., "header_section"), and a numeric ID indicating the instance number of that type of section in the document (e.g., "header_section_1"). 
+
+Every section contains two subcomponents. The first subcomponent is a div for meta information about the section. It must have a class indicating its type (e.g., "header_section_meta"). The second subcomponent is where the actual content goes. It must have a class indicating its type (e.g., "header_section_content"), and an ID based off the section ID (e.g., "header_section_1_content"). It may also optionally have a data attribute called "data-checksum" which contains a checksum of its contents. This checksum can be hard coded in, or calculated using Javascript.
+
+Within the content subcomponent, all content must be placed inside divs with the class "holder". The holder elements must have IDs indicating the instance number among all holders on the page (e.g., "holder_1").
+
+### Widgets
+
+Widgets must have the class "widget".
+
+### Other Element IDs
+
+When picking element IDs always use underscores between words, never spaces.
+
+### Inline CSS
+
+Inline CSS should be avoided except where it is not possible to use other options. Separate CSS files should be used where possible.

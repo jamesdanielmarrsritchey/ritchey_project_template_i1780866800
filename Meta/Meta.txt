@@ -2,8 +2,8 @@
 
 Name: Ritchey Project Template
 Implementation: 1780866800
-Version: 2
+Version: 3
 Release Type: Stable
-Long Identifier: Ritchey Project Template i1780866800 v2
-Short Identifier: RPTi1780866800v2
+Long Identifier: Ritchey Project Template i1780866800 v3
+Short Identifier: RPTi1780866800v3
 Author: James Daniel Marrs Ritchey
